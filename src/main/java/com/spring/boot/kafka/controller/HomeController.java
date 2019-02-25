@@ -8,8 +8,13 @@ package com.spring.boot.kafka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Zhao Xiaoli
@@ -21,12 +26,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @Autowired
-    private KafkaTemplate<String,String> template;
+    private KafkaTemplate<String, String> template;
 
     @RequestMapping("index")
     public String index() {
-        template.send("kafka-topic-index","kafka message " + Math.random());
-        return "index";
+        ListenableFuture<SendResult<String, String>> send = template.send("kafka_topic_index", "kafka message " + Math.random());
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(send);
+        } catch (JsonProcessingException e) {
+            return "index";
+        }
     }
 
 }
