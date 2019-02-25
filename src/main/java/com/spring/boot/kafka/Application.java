@@ -8,6 +8,7 @@ package com.spring.boot.kafka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.annotation.EnableKafka;
 
 /**
  * @author Zhao Xiaoli
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since JDK 1.8
  */
 @SpringBootApplication
+@EnableKafka
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

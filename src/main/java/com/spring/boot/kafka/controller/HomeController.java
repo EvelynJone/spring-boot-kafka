@@ -6,6 +6,8 @@
  */
 package com.spring.boot.kafka.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
+    @Autowired
+    private KafkaTemplate<String,String> template;
+
     @RequestMapping("index")
     public String index() {
+        template.send("kafka-topic-index","kafka message " + Math.random());
         return "index";
     }
+
 }
